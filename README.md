@@ -1,6 +1,6 @@
 # CLAP Restart Test
 
-A minimal clap plugins to highlight what I believe is a bug with Bitwig's (as of 5.1.7) implementation of CLAP plugin protocol with respect to host's handling of ``host->request_restart`` 
+A minimal clap plugin to highlight what I believe is a bug with Bitwig's (as of 5.1.7) implementation of the CLAP plugin protocol with respect to host's handling of ``host->request_restart`` 
 
 ## Expectation
 
@@ -30,20 +30,24 @@ Note: My test environment is MacOS Sonoma 14.4, M1 Max, Bitwig versions 5.1 and 
 3. Use Bitwig's File Browser to navigate to the ``build/note-logger`` directory and locate the plugin
 4. Create an Instrument Track with the **Note Logger** plugin in the signal chain.
 5. Open the **Note Logger** GUI.
-6. Click the *Note Logger* menu item in the upper-left corner and select *MIDI 1.0* from the *Supported Note Dialects* list
-7. Observe that ``host->request_restart`` is now displayed in the event log. This was called because the previous menu selection requires a rescan when deactivated to complete.
-8. Wait, and observe that nothing appears to be happening.
-9. Press the **orange power button** on the plugin device to turn to the **off** state.
-10. Observe that ``host->request_restart`` has been honoured, and the followup sequence of events have been executed.
-11. Click the *Note Logger* menu item in the upper-left corner and select *MIDI 1.0* from the *Supported Note Dialects* list, again.
-12. Observe that ``host->request_restart`` has been honoured when in the **off** state.
-13. Press the **orange power button** on the plugin device to turn to **on** state.
-14. Click the *Note Logger* menu item in the upper-left corner and select *MIDI 1.0* from the *Supported Note Dialects* list, again.
-15. Observe that ``host->request_restart`` has been honoured when in the **on** state.
-16. Observe that ``host->request_restart`` appears to not be honoured after initial startup, but once the **orange power button** has been interacted with, it begins to be honoured.
-    
+6. Toggle the *Note Logger* menu item in the upper-left corner and select *MIDI 1.0* from the *Supported Note Dialects* list
+    - Observe that ``host->request_restart`` is now displayed in the event log.
+    - This was called because the previous menu selection requires a rescan when deactivated to complete.
+    - Wait, and observe that nothing more appears to be happening.
+7. Press the **orange power button** on the plugin device to turn to the **off** state.
+    - Observe that ``host->request_restart`` has been honoured, and the followup sequence of events have been executed.
+8. Again, toggle the *Note Logger* menu item in the upper-left corner and select *MIDI 1.0* from the *Supported Note Dialects* list.
+    - Observe that ``host->request_restart`` has been honoured when in the **off** state.
+9. Again, press the **orange power button** on the plugin device to turn to **on** state.
+10. Again, toggle the *Note Logger* menu item in the upper-left corner and select *MIDI 1.0* from the *Supported Note Dialects* list.
+    - Observe that ``host->request_restart`` has been honoured when in the **on** state.
 
-### Note about code
+
+## Conclusion
+
+Through these steps one can conclude that ``host->request_restart`` appears to not be honoured after initial startup, but once the **orange power button** has been interacted with, it begins to be honoured.
+
+## Note about code
 
 This plugin was built to be small and focus on a minimal functionality, not intended to be examples of a robust plugin.
 It is based on the **Note Logger** plugin that I wrote here: https://github.com/mccann/CLAP-Expression-Tests
